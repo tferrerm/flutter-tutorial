@@ -31,6 +31,9 @@ class MyHomePage extends StatelessWidget {
     ),
   ];
 
+  String titleInput;
+  String amountInput;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +41,7 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Card(
@@ -47,6 +50,32 @@ class MyHomePage extends StatelessWidget {
               child: Text('Chart'),
             ),
             elevation: 5,
+          ),
+          Card(
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Title'),
+                    onChanged: (value) {
+                      titleInput = value;
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Amount'),
+                    onChanged: (value) => amountInput = value,
+                  ),
+                  FlatButton(
+                    onPressed: () => print("$titleInput $amountInput"),
+                    child: Text('Submit'),
+                    textColor: Colors.purple,
+                  )
+                ],
+              ),
+            ),
           ),
           Column(
               children: transactions.map((transaction) {
@@ -77,8 +106,7 @@ class MyHomePage extends StatelessWidget {
                       Text(
                         transaction.title,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Text(
                         DateFormat('yyyy-MM-dd').format(transaction.date),
