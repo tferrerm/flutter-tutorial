@@ -27,6 +27,8 @@ class _NewTransactionState extends State<NewTransaction> {
       enteredTitle,
       enteredAmount, // TODO: check if possible
     );
+
+    Navigator.of(context).pop();
   }
 
   @override
