@@ -103,13 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Card(
-            child: Container(
-              width: double.infinity,
-              child: Chart(_recentTransactions),
-            ),
-            elevation: 5,
-          ),
+          Chart(_recentTransactions),
           TransactionList(_userTransactions),
         ],
       ),
