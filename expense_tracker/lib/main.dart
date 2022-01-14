@@ -57,6 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
 
+  List<Transaction> get _recentTransactions {
+    final sevenDaysBefore = DateTime.now().subtract(Duration(days: 7));
+    return _userTransactions.where((tx) => tx.date.isAfter(sevenDaysBefore)).toList();
+  }
+
   void _addNewTransaction(String title, double amount) {
     final newTx = Transaction(
         title: title,
@@ -101,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Card(
             child: Container(
               width: double.infinity,
-              child: Chart(_userTransactions),
+              child: Chart(_recentTransactions),
             ),
             elevation: 5,
           ),
