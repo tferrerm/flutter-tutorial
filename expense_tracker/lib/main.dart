@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/chart.dart';
 import 'package:expense_tracker/widgets/new_transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Card(
             child: Container(
               width: double.infinity,
-              child: Text('Chart'),
+              child: Chart(_userTransactions),
             ),
             elevation: 5,
           ),
