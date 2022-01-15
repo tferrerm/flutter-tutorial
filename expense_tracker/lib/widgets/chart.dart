@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:expense_tracker/widgets/chart_bar.dart';
 import 'package:expense_tracker/models/transaction.dart';
 
 class Chart extends StatelessWidget {
@@ -25,8 +26,16 @@ class Chart extends StatelessWidget {
           totalSum += recentTransactions[i].amount;
         }
       }
-      return {'day': DateFormat.E().format(weekDay), 'amount': totalSum};
+      return {'day': DateFormat.E().format(weekDay)[0], 'amount': totalSum};
     });
+  }
+
+  double get totalSpending {
+    final double total = groupedTransactionValues.fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue + (element['amount'] as double));
+    return total;
   }
 
   @override
@@ -35,7 +44,16 @@ class Chart extends StatelessWidget {
         elevation: 6,
         margin: EdgeInsets.all(20),
         child: Row(
-          children: <Widget>[],
+          children: groupedTransactionValues.map((data) {
+            final double percentage = totalSpending != 0
+                ? (data['amount'] as double) / totalSpending
+                : 0;
+            return ChartBar(
+              label: data['day'] as String,
+              spentAmount: data['amount'] as double,
+              spentPercentage: percentage,
+            );
+          }).toList(),
         ));
   }
 }
