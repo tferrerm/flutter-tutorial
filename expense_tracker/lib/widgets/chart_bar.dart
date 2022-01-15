@@ -15,9 +15,16 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FittedBox(
-          child: Text('\$${spentAmount.toStringAsFixed(0)}'),
-        ), // to avoid text from growing too large
+        Container(
+          // Container aligns the bars and the text when the amount is too large
+          height: 20,
+          child: FittedBox(
+            // to avoid text from growing too large
+            child: Text(
+              '\$${spentAmount.toStringAsFixed(0)}',
+            ),
+          ),
+        ),
         SizedBox(height: 4),
         Container(
           height: 60,

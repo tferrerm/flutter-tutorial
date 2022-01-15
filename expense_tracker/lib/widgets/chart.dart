@@ -14,7 +14,7 @@ class Chart extends StatelessWidget {
     final currentDay = DateTime.now();
 
     return List.generate(7, // Weekdays
-        (index) {
+            (index) {
       final weekDay = currentDay.subtract(Duration(days: index));
       double totalSum = 0;
 
@@ -27,7 +27,9 @@ class Chart extends StatelessWidget {
         }
       }
       return {'day': DateFormat.E().format(weekDay)[0], 'amount': totalSum};
-    });
+    })
+        .reversed
+        .toList(); // reverse it to show today to the right and the oldest date first
   }
 
   double get totalSpending {
