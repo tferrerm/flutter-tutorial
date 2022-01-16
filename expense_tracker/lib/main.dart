@@ -17,15 +17,14 @@ class MyApp extends StatelessWidget {
             .green, // automatically generates different shades of the color
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              button: TextStyle(
-                color: Colors.white,
-              )
+            headline6: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
+            button: TextStyle(
+              color: Colors.white,
+            )),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'Open Sans',
@@ -62,15 +61,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Transaction> get _recentTransactions {
     final sevenDaysBefore = DateTime.now().subtract(Duration(days: 7));
-    return _userTransactions.where((tx) => tx.date.isAfter(sevenDaysBefore)).toList();
+    return _userTransactions
+        .where((tx) => tx.date.isAfter(sevenDaysBefore))
+        .toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date) {
     final newTx = Transaction(
-        title: title,
-        amount: amount,
-        date: DateTime.now(),
-        id: DateTime.now().toString());
+      title: title,
+      amount: amount,
+      date: date,
+      id: DateTime.now().toString(),
+    );
 
     setState(() {
       _userTransactions.add(newTx);
