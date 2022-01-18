@@ -13,13 +13,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
-        primarySwatch: Colors
-            .green, // automatically generates different shades of the color
+        // primarySwatch automatically generates different shades of the color
+        primarySwatch: Colors.blue,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
             headline6: TextStyle(
               fontFamily: 'OpenSans',
-              fontSize: 18,
+              fontSize: 18 * MediaQuery.textScaleFactorOf(context),
               fontWeight: FontWeight.bold,
             ),
             button: TextStyle(
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'Open Sans',
-            fontSize: 20,
+            fontSize: 20 * MediaQuery.textScaleFactorOf(context),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -100,22 +100,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text('Personal Expenses'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        )
+      ],
+    );
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final remainingScreenSpace = screenHeight - appBar.preferredSize.height - MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Personal Expenses'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Chart(_recentTransactions),
-          TransactionList(_userTransactions, _deleteTransaction),
+          Container(
+            height: remainingScreenSpace * 0.4,
+            child: Chart(_recentTransactions),
+          ),
+          Container(
+            height: remainingScreenSpace * 0.6,
+            child: TransactionList(_userTransactions, _deleteTransaction),
+          ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
