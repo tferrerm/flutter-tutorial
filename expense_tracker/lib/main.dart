@@ -120,11 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-            height: remainingScreenSpace * 0.4,
+            height: remainingScreenSpace * 0.3,
             child: Chart(_recentTransactions),
           ),
           Container(
-            height: remainingScreenSpace * 0.6,
+            height: remainingScreenSpace * 0.7,
             child: TransactionList(_userTransactions, _deleteTransaction),
           ),
         ],
