@@ -149,39 +149,41 @@ class _MyHomePageState extends State<MyHomePage> {
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
-    final appBody = Column(
-      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        if (isLandscape)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Show Chart'),
-              Switch.adaptive(
-                value: _showChart,
-                onChanged: (val) {
-                  setState(() {
-                    _showChart = val;
-                  });
-                },
-              )
-            ],
-          ),
-        if (!isLandscape)
-          Container(
-            height: remainingScreenSpace * 0.3,
-            child: Chart(_recentTransactions),
-          ),
-        if (!isLandscape) txListWidget,
-        if (isLandscape)
-          _showChart
-              ? Container(
-                  height: remainingScreenSpace * 0.7,
-                  child: Chart(_recentTransactions),
+    final appBody = SafeArea(
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show Chart'),
+                Switch.adaptive(
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
                 )
-              : txListWidget,
-      ],
+              ],
+            ),
+          if (!isLandscape)
+            Container(
+              height: remainingScreenSpace * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+          if (!isLandscape) txListWidget,
+          if (isLandscape)
+            _showChart
+                ? Container(
+                    height: remainingScreenSpace * 0.7,
+                    child: Chart(_recentTransactions),
+                  )
+                : txListWidget,
+        ],
+      ),
     );
 
     return Platform.isIOS
