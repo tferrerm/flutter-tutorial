@@ -5,7 +5,9 @@ class ChartBar extends StatelessWidget {
   final double spentAmount;
   final double spentPercentage;
 
-  ChartBar({
+  // Every instance of this object is immutable because of `const'
+  // All StatelessWidget are technically immutable anyway.
+  const ChartBar({
     required this.label,
     required this.spentAmount,
     required this.spentPercentage,

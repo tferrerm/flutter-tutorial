@@ -16,11 +16,12 @@ class TransactionList extends StatelessWidget {
             builder: (ctx, constraint) {
               return Column(
                 children: <Widget>[
+                  // cannot add `const' to this Text because one arg is not `const'
                   Text(
                     'No transactions available. Try adding one!',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
@@ -38,7 +39,7 @@ class TransactionList extends StatelessWidget {
             itemBuilder: (ctx, index) {
               return Card(
                 elevation: 5,
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   vertical: 8,
                   horizontal: 5,
                 ),
@@ -46,7 +47,7 @@ class TransactionList extends StatelessWidget {
                   leading: CircleAvatar(
                     radius: 30,
                     child: Padding(
-                      padding: EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
                       child: FittedBox(
                         child: Text('\$${transactions[index].amount}'),
                       ),
@@ -62,7 +63,7 @@ class TransactionList extends StatelessWidget {
                   trailing: MediaQuery.of(context).size.width > 360
                       ? FlatButton.icon(
                           icon: Icon(Icons.delete),
-                          label: Text('Delete'),
+                          label: const Text('Delete'), // Text will never change so when build gets called again this one is not rebuilt
                           textColor: Theme.of(context).errorColor,
                           onPressed: () => deleteTx(transactions[index].id),
                         )

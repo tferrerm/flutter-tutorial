@@ -82,7 +82,7 @@ class _NewTransactionState extends State<NewTransaction> {
                       controller: _titleController,
                     )
                   : TextField(
-                      decoration: InputDecoration(labelText: 'Title'),
+                      decoration: const InputDecoration(labelText: 'Title'),
                       controller: _titleController,
                       // onChanged: (value) {
                       //   titleInput = value;
@@ -97,7 +97,7 @@ class _NewTransactionState extends State<NewTransaction> {
                       onSubmitted: (_) => _submitData(),
                     )
                   : TextField(
-                      decoration: InputDecoration(labelText: 'Amount'),
+                      decoration: const InputDecoration(labelText: 'Amount'),
                       controller: _amountController,
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
@@ -120,7 +120,7 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
               RaisedButton(
                 onPressed: _submitData,
-                child: Text('Submit'),
+                child: const Text('Submit'),
                 color: Theme.of(context).primaryColorDark,
                 textColor: Theme.of(context).textTheme.button!.color,
               )
