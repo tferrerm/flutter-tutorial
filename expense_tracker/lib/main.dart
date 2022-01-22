@@ -107,38 +107,88 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  List<Widget> _buildLandscapeContent(double screenSpace, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Switch.adaptive(
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          )
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: screenSpace * 0.7,
+              child: Chart(_recentTransactions),
+            )
+          : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(double screenSpace, Widget txListWidget) {
+    return [
+      Container(
+        height: screenSpace * 0.3,
+        child: Chart(_recentTransactions),
+      ),
+      txListWidget
+    ];
+  }
+
   void _deleteTransaction(String id) {
     setState(() {
       _userTransactions.removeWhere((tx) => tx.id == id);
     });
   }
 
+  PreferredSizeWidget _buildAppBar() {
+    return Platform.isIOS
+        ? _buildCupertinoAppBar()
+        : _buildMaterialAppBar() as PreferredSizeWidget;
+  }
+
+  CupertinoNavigationBar _buildCupertinoAppBar() {
+    return CupertinoNavigationBar(
+      middle: Text('Personal Expenses'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            child: Icon(CupertinoIcons.add),
+            onTap: () => _startAddNewTransaction(context),
+          )
+        ],
+      ),
+    );
+  }
+
+  AppBar _buildMaterialAppBar() {
+    return AppBar(
+      title: Text('Personal Expenses'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text('Personal Expenses'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  child: Icon(CupertinoIcons.add),
-                  onTap: () => _startAddNewTransaction(context),
-                )
-              ],
-            ),
-          )
-        : AppBar(
-            title: Text('Personal Expenses'),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddNewTransaction(context),
-              )
-            ],
-          ) as PreferredSizeWidget;
+    final PreferredSizeWidget appBar = _buildAppBar();
 
     final screenHeight = mediaQuery.size.height;
     final remainingScreenSpace =
@@ -155,33 +205,9 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart', style: Theme.of(context).textTheme.headline6,),
-                Switch.adaptive(
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                )
-              ],
-            ),
+            ..._buildLandscapeContent(remainingScreenSpace, txListWidget),
           if (!isLandscape)
-            Container(
-              height: remainingScreenSpace * 0.3,
-              child: Chart(_recentTransactions),
-            ),
-          if (!isLandscape) txListWidget,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: remainingScreenSpace * 0.7,
-                    child: Chart(_recentTransactions),
-                  )
-                : txListWidget,
+            ..._buildPortraitContent(remainingScreenSpace, txListWidget),
         ],
       ),
     );
