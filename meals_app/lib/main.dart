@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       },
       onGenerateRoute: (settings) {
         print(settings.arguments);
-        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+        // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
       },
       onUnknownRoute: (settings) {
         print(settings.arguments);
