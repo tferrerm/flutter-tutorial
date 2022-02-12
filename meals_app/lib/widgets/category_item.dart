@@ -23,7 +23,7 @@ class CategoryItem extends StatelessWidget {
     // Inkwell: GestureDetector with Ripple effect
     return InkWell(
       onTap: () => selectCategory(context),
-      splashColor: Theme.of(context).primaryColor,
+      splashColor: Theme.of(context).colorScheme.primary,
       borderRadius:
           BorderRadius.circular(15), // should match the container's radius
       child: Container(
