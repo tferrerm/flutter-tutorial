@@ -17,6 +17,7 @@ class MealDetailScreen extends StatelessWidget {
     );
   }
 
+  // TODO: use MediaQuery
   Widget listContainer(Widget child) {
     return Container(
       height: 200,
@@ -61,7 +62,7 @@ class MealDetailScreen extends StatelessWidget {
                             child: Text(selectedMeal.ingredients[index])),
                       );
                     }),
-              ), // TODO: use MediaQuery
+              ),
               sectionTitle(context, 'Preparation steps'),
               listContainer(
                 ListView.builder(
