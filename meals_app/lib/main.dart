@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/dummy_data.dart';
 
+import 'models/meal.dart';
 import 'screens/categories_screen.dart';
 import 'screens/category_meals_screen.dart';
 import 'screens/meal_detail_screen.dart';
@@ -10,8 +12,42 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List<Meal> _availableMeals = dummyMeals;
+
+  final Map<String, bool> filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      for (var key in filters.keys) {
+        if (filterData.containsKey(key)) {
+          filters[key] = filterData[key]!;
+        }
+      }
+      _availableMeals = dummyMeals.where((meal) {
+        return mealMatchesFilter(filters['gluten']!, meal.isGlutenFree) &&
+            mealMatchesFilter(filters['lactose']!, meal.isLactoseFree) &&
+            mealMatchesFilter(filters['vegetarian']!, meal.isVegetarian) &&
+            mealMatchesFilter(filters['vegan']!, meal.isVegan);
+      }).toList();
+    });
+  }
+
+  bool mealMatchesFilter(bool filter, bool mealAttribute) {
+    return (!filter || mealAttribute);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +77,11 @@ class MyApp extends StatelessWidget {
       // initialRoute: '/', (default is '/')
       routes: {
         '/': (ctx) => const TabsScreen(),
-        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (ctx) =>
+            CategoryMealsScreen(meals: _availableMeals),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(),
+        FiltersScreen.routeName: (ctx) =>
+            FiltersScreen(filters: filters, saveFilters: _setFilters),
       },
       onGenerateRoute: (settings) {
         print(settings.arguments);
