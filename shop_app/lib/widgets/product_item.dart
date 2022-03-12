@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/product_detail_screen.dart';
-import '../models/product.dart';
+import '../providers/product.dart';
 
 class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String? imageURL; // TODO: support null imageURL
-
-  const ProductItem(
-      {Key? key, required this.id, required this.title, this.imageURL})
-      : super(key: key);
+  const ProductItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // here we do want to listen to the Product Listener
+    final product = Provider.of<Product>(context);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -21,23 +19,27 @@ class ProductItem extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pushNamed(
               ProductDetailScreen.routeName,
-              arguments: id,
+              arguments: product.id,
             );
           },
           child: Image.network(
-            imageURL!,
+            product.imageURL!, // TODO: support null imageURL
             fit: BoxFit.cover,
           ),
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           leading: IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {},
+            icon: Icon(
+              product.isFavorite ? Icons.favorite : Icons.favorite_border,
+            ),
+            onPressed: () {
+              product.toggleFavoriteStatus();
+            },
             color: Theme.of(context).colorScheme.secondary,
           ),
           title: Text(
-            title,
+            product.title,
           ),
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart),
