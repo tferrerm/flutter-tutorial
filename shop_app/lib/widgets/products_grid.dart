@@ -25,8 +25,11 @@ class ProductsGrid extends StatelessWidget {
       itemCount: products.length,
       itemBuilder: (ctx, index) {
         final product = products[index];
-        return ChangeNotifierProvider(
-          create: (context) => product,
+        // now the provider is tied to its data.
+        // Important to use .value in all scenarios where we are providing our data on single list
+        // items when the widgets will be recycled when they're off-screen
+        return ChangeNotifierProvider.value(
+          value: product,
           child: ProductItem(),
         );
       },

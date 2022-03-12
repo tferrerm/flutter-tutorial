@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // we need to use the `create` method here instead of value
+    // whenever we instantiate a class to provide that object to the ChangeNotifierProvider
+    // it is more efficient and helps avoid bugs
     return ChangeNotifierProvider(
       create: (ctx) => Products(),
       child: MaterialApp(
