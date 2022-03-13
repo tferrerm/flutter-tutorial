@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/product_detail_screen.dart';
+import '../providers/cart.dart';
 import '../providers/product.dart';
 
 class ProductItem extends StatelessWidget {
@@ -15,6 +16,8 @@ class ProductItem extends StatelessWidget {
     // Maybe we only want to run a subpart of build when the widget changes
     // child is a widget that is not rebuilt if the info never changes
     // final product = Provider.of<Product>(context);
+
+    final cart = Provider.of<Cart>(context, listen: false); // only want to add an item
 
     return Consumer<Product>(
       child: const Text('Never changes'),
@@ -49,7 +52,9 @@ class ProductItem extends StatelessWidget {
             ),
             trailing: IconButton(
               icon: const Icon(Icons.shopping_cart),
-              onPressed: () {},
+              onPressed: () {
+                cart.addItem(product.id, product.price, product.title);
+              },
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
