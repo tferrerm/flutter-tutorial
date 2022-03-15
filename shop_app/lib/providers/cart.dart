@@ -25,6 +25,12 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
+  double get totalAmount {
+    return _items.values
+        .map((cartItem) => cartItem.qty * cartItem.price)
+        .reduce((total, amount) => total += amount);
+  }
+
   void addItem(String productId, double price, String title) {
     if (_items.containsKey(productId)) {
       _items.update(
